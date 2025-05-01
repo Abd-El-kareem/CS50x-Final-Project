@@ -1,0 +1,39 @@
+{% extends 'quiz/layout.html' %}
+{% load static %}
+{% block title %} Login {% endblock %}
+{% block body %}
+<div class="login-view text-center d-flex justify-content-center align-items-center">
+  <div class="container">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="msg alert alert-danger m-auto mb-3" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    <div class="login-form form-group m-auto shadow-lg p-4 rounded">
+      <h3 class="mb-4">Login</h3>
+      <form action="{% url 'quiz:login' %}" method="post">
+        {% csrf_token %}
+        <div class="username-input form-group row mb-3">
+          <label for="id_username" class="col-lg-2 col-md-4 col-form-label"
+            >{{ form.username.label }}</label
+          >
+          <div class="col-md-8 col-lg-10">{{ form.username }}</div>
+        </div>
+        <div class="password-input form-group row mb-4">
+          <label for="id_password" class="col-lg-2 col-md-4 col-form-label"
+            >{{ form.password.label }}</label
+          >
+          <div class="col-md-8 col-lg-10">{{ form.password }}</div>
+        </div>
+        <p class="mb-4 fs-6 text-center text-md-start ms-2 text-black-50">
+          Dont have an Account? <a href="{% url 'quiz:register' %}">Register</a>
+        </p>
+        <input class="btn main-btn" type="submit" value="Login" />
+      </form>
+    </div>
+  </div>
+</div>
+<script src="{% static 'quiz/js/message.js' %}"></script>
+{% endblock %}

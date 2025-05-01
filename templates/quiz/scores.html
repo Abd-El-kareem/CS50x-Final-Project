@@ -1,0 +1,28 @@
+{% extends "quiz/layout.html" %}
+
+{% block title %} Scores {% endblock %}
+
+{% block body %}
+    <div class="scores-view pt-5 pb-5 text-center">
+        <div class="container">
+            <h3 class="mb-3">Scores</h3>
+            {% for score in scores %}
+                <div class="row mb-3 p-3 align-items-center rounded-4">
+                    <div class="col-4">
+                        <span class="d-block">Qiuz Title: </span>
+                        <span class="fw-medium fs-5">{{ score.quiz.title }}</span>
+                    </div>
+                    <div class="col-4">
+                        <span class="d-block">Points: </span>
+                        <span class="fw-medium fs-5">{{ score.points }} Out of {{ score.quiz.total_points }}</span>
+                    </div>
+                    <div class="col-4 text-end text-md-center">
+                        <a href="{% url 'quiz:view_quiz' quiz_id=score.quiz.id %}" class="btn btn-sm main-btn">Review</a>
+                    </div>
+                </div>
+            {% empty %}
+                <h3>No Scores</h3>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

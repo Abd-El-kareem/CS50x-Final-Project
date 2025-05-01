@@ -1,0 +1,90 @@
+{% extends 'quiz/layout.html' %}
+
+{% load static %}
+
+{% load custom_filters %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Create a Quiz {% endblock %}
+
+{% block body %}
+<div class="create-view">
+    <div class="container pt-5 pb-5">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="msg alert alert-danger m-auto mb-3 text-center text-light d-block" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h3 class="text-center mb-3">Create a New Quiz</h3>
+        <form action="{% url 'quiz:create' %}" method="post" class="p-3 border rounded main-box-shadow">
+            {% csrf_token %}
+            {{ quiz_form|crispy }}
+            <h4>Questions</h4>
+            <div id="questions-container" class="mb-4 p-3 border rounded main-box-shadow">
+                {{ question_formset.management_form }}
+                {{ answer_formset.management_form }}
+                {% for pair in pairs %}
+                    {% for question_form, answer_forms in pair.items %}
+                        <div class="accordion mb-2 q-accordion" id="id_questions-{{ forloop.parentloop.counter0 }}-accordion" data-id_num="{{ forloop.parentloop.counter0 }}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="id_questions-{{ forloop.parentloop.counter0 }}-heading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#id_questions-{{ forloop.parentloop.counter0 }}-accordion_collapse" aria-expanded="true" aria-controls="id_questions-{{ forloop.parentloop.counter0 }}-accordion_collapse"> 
+                                    Question #{{ forloop.parentloop.counter }}
+                                </button>
+                                </h2>
+                                <div id="id_questions-{{ forloop.parentloop.counter0 }}-accordion_collapse" class="accordion-collapse collapse show"
+                                aria-labelledby="id_questions-{{ forloop.parentloop.counter0 }}-heading" data-bs-parent="#id_questions-{{ forloop.parentloop.counter0 }}-accordion">
+                                    <div class="accordion-body">
+                                        <div class="question-form mb-4 p-3 border rounded main-box-shadow">
+                                            <h6 class="question-num mb-3 mt-3 text-black-50">Question #{{ forloop.parentloop.counter }}</h6>
+                                            {{ question_form.id }}
+                                            {{ question_form|crispy }}
+                                            <div class="answers-container mb-3 p-3 border rounded" id="answers-container-{{ forloop.parentloop.counter0 }}" data-question_index="{{ forloop.counter0 }}">
+                                                <h5>Answers: </h5>
+                                                {% for ans_form in answer_forms %}
+                                                    {% with ans_form.prefix|split:"-" as form_parts %}
+                                                        <div class="accordion mb-2 a-accordion" id="id_answers-{{ form_parts.1 }}-accordion" data-id_num="{{ form_parts.1 }}">
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="id_answers-{{ form_parts.1 }}-heading">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                                    data-bs-target="#id_answers-{{ form_parts.1 }}-accordion_collapse" aria-expanded="true" aria-controls="id_answers-{{ form_parts.1 }}-accordion_collapse"> 
+                                                                    Answer #{{ forloop.counter }}
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="id_answers-{{ form_parts.1 }}-accordion_collapse" class="accordion-collapse collapse show"
+                                                                aria-labelledby="id_answers-{{ form_parts.1 }}-heading" data-bs-parent="#id_answers-{{ form_parts.1 }}-accordion">
+                                                                <div class="accordion-body">
+                                                                    <div class="answer-form mb-4 p-3 border rounded main-box-shadow">
+                                                                        <h6 class="answer-num mb-2 mt-2 text-black-50">Answer #{{ forloop.counter }}</h6>
+                                                                        {{ ans_form.id }}
+                                                                        {{ ans_form|crispy }}
+                                                                        <button type="button" class="btn btn-sm btn-danger remove-answer">Remove Answer</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endwith %}
+                                                {% endfor %}
+                                                <button type="button" class="btn btn-sm main-btn add-answer">Add Answer</button>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-danger remove-question">Remove Question</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <button type="button" class="btn btn-sm main-btn" id="add-Q-btn">Add a Question</button>
+            </div>
+            <input type="submit" class="btn btn-sm d-block main-btn" value="Save">
+        </form>
+    </div>
+</div>
+<script src="{% static 'quiz/js/create.js' %}"></script>
+{% endblock %}

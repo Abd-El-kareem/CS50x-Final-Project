@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'quiz/css/all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'quiz/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'quiz/css/quiz.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar navbar-expand-lg stiky-top">
+      <div class="container">
+        <a href="#" class="navbar-brand">
+          <i class="fa-solid fa-e fa-2x"></i>
+          <i class="fa-solid fa-q fa-2x"></i>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#main"
+          aria-controls="main"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="main">
+          <ul class="navbar-nav m-auto mb-2 mb-lg-0 text-md-start text-center">
+            <li class="nav-item">
+              <a
+                href="{% url 'quiz:index' %}"
+                class="nav-link p-2 p-lg-3 text-center text-lg-start"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'quiz:categories' %}" class="nav-link p-2 p-lg-3 text-center text-lg-start"
+                >Quizzes</a
+              >
+            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a href="{% url 'quiz:create' %}" class="nav-link p-2 p-lg-3 text-center text-lg-start"
+                  >Create</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'quiz:view_scores' %}" class="nav-link p-2 p-lg-3 text-center text-lg-start"
+                  >Scores</a
+                >
+              </li>
+            {% endif %}
+          </ul>
+          <div class="d-flex justify-content-center">
+            {% if not user.is_authenticated %}
+              <a href="{% url 'quiz:login' %}" class="btn main-btn rounded-pill">Login</a>
+            {% else %}
+              <a href="{% url 'quiz:logout' %}" class="btn main-btn rounded-pill">Logout</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% block body %} {% endblock %}
+    <script src="{% static 'quiz/js/all.min.js' %}"></script>
+    <script src="{% static 'quiz/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

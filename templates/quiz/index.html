@@ -1,0 +1,31 @@
+{% extends 'quiz/layout.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+{% block body %}
+<div class="landing text-center d-flex justify-content-center align-items-center">
+  <div class="container position-relative">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="msg alert w-50 m-auto mb-3" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% if not user.is_authenticated %}
+      <div class="text mb-4">
+        <h1>Welcome, Guest</h1>
+        <h3>Educational Quizes, and More!</h3>
+        <p class="fs-5">Test and Educate Yourself Now!</p>
+      </div>
+      <a href="{% url 'quiz:register' %}" class="btn main-btn rounded-pill">Get Started</a>
+      <a href="{% url 'quiz:categories' %}" class="btn main-btn rounded-pill">Try Quizes Now</a>
+    {% else %}
+      <div class="text mb-4">
+        <h1>Welcome, {{ user }}</h1>
+        <h3>Educational Quizes, and More!</h3>
+        <p class="fs-5">Test and Educate Yourself Now!</p>
+      </div>
+      <a href="{% url 'quiz:categories' %}" class="btn main-btn rounded-pill">Try Quizes Now</a>
+    {% endif %}
+  </div>
+</div>
+<script src="{% static 'quiz/js/message.js' %}"></script>
+{% endblock %}

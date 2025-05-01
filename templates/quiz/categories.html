@@ -1,0 +1,34 @@
+{% extends 'quiz/layout.html' %}
+
+{% load static %}
+
+{% block title %} Categories {% endblock %}
+
+{% block body %}   
+    <div class="categories-view">
+        <div class="container pt-5 pb-5">
+            <h3 class="text-center mb-3">Choose Your Category</h3>
+            <div class="categories-cards">
+                {% for category in categories %}
+                    <div class="card">
+                        <img src="{{ category.image.url }}" alt="{{ category.title }} Image" class="img-fluid card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.title }} Quizzes</h5>
+                            <p class="card-text">Test Your knowledge in {{ category.title }}, and learn More!</p>
+                            <button class="explore btn btn-outline text-center" id="explore-{{ category.id }}">Explore</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="quizzes-view pt-5 pb-5">
+        <div class="container">
+            <h3 class="mb-3 text-center">Quizzes</h3>
+            <div id="quizzes-container">
+            </div>
+            <a class="btn main-btn" id="back-btn">Back</a>
+        </div>
+    </div>
+    <script src="{% static 'quiz/js/categories.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'quiz/layout.html' %}
+{% load static %}
+{% block title %} {{ quiz.title }} Quiz {% endblock %}
+{% block body %}
+<div class="quiz-view" id="quiz-{{ quiz.id }}">
+  <div class="container">
+    <div class="row">
+      <div class="aside col-md-3 d-none d-md-block">
+        <ul class="list-unstyled mt-2">
+          <li class="p-3" id="question-tracker"></li>
+          <li class="p-3" id="category">Category</li>
+        </ul>
+      </div>
+      <div class="main col-md-9 d-flex align-items-center">
+        <div class="container">
+          <div class="msg alert m-auto mb-3 text-center mt-3" role="alert"></div>
+          <div id="result" class="fw-bold fs-4 text-center mt-3"></div>
+          <div class="question-section mt-3 text-center">
+            {% if quiz.owner == request.user %}
+              <div class="alert alert-info">
+                Use this code to share the quiz: <span class="text-black-50">{{ quiz.id }}</span> 
+              </div>
+            {% endif %}
+            <h3>{{ quiz.title }} Quiz</h3>
+            <img src="" alt="image" class="img-fluid rounded-4 mt-3" />
+            <p
+              class="question mt-4 mb-4 fs-4 fw-medium rounded-4 p-3 bg-dark text-light"
+              id="question"
+              data-q_now=""
+            ></p>
+          </div>
+          <div id="answers-container" class="options d-grid gap-3 text-center mb-5 m-auto"></div>
+          <div class="d-flex flex-row-reverse justify-content-between mb-3" id="buttons-container">
+            <div class="btn main-btn rounded-4" id="next">Next</div>
+            <div class="btn main-btn rounded-4" id="submit">Submit</div>
+            <div class="btn main-btn rounded-4" id="previous">Previous</div>
+          </div>
+          <div id="icons" class="mb-3"></div>
+          <div id="ai-view" class="d-flex flex-column justify-content-center text-center">
+            <div class="btn main-btn rounded-4 mb-3" id="feedback">AI Feedback</div>
+            <div id="ai-content" class="p-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'quiz/js/all.min.js' %}"></script>
+<script src="{% static 'quiz/js/quiz.js' %}"></script>
+{% endblock %}
