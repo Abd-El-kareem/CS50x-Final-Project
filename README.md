@@ -1,6 +1,6 @@
 # Educational Quiz Web Application using Django
 
-#### Video Demo:  <URL HERE>
+#### Video Demo: https://youtu.be/0sH6MdQA6PI?si=zalqfcyoCogFEJRd
 
 #### Description:
   This is a web-based quiz application built with Django, a popular web apps framework using Python,
