@@ -31,11 +31,10 @@ def convert_to_HTML(result):
 def map_question_answer(answer_formset_data):
     question_answer_mappings = {}
     for answer_form_data in answer_formset_data:
-        question_index = answer_form_data.data[f'{answer_form_data.prefix}-for_question_index']
+        question_index = answer_form_data['for_question_index'].value()
         try: 
             question_answer_mappings[question_index].append(answer_form_data)
         except KeyError:
             question_answer_mappings[question_index] = []
             question_answer_mappings[question_index].append(answer_form_data)
-        
     return question_answer_mappings

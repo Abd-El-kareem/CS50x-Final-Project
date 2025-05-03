@@ -77,6 +77,7 @@ function addNewQuestion() {
   updateTotalForms();
   updateQAddButton();
   updateQRemoveButton();
+  updateARemoveButtons(newQuestionForm.querySelector(".answers-container"));
 }
 
 function handleRemoveQClick(event) {
@@ -274,7 +275,11 @@ function updateTotalForms() {
 function resetFormFields(form) {
   const inputs = form.querySelectorAll("input");
   inputs.forEach((input) => {
-    if (input.name !== "csrfmiddlewaretoken" && input.type !== "hidden") {
+    if (
+      input.name !== "csrfmiddlewaretoken" &&
+      input.type !== "hidden" &&
+      input.type !== "checkbox"
+    ) {
       input.value = "";
     }
   });

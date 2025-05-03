@@ -114,7 +114,7 @@ def create_quiz(request):
 
             quiz.save()
             messages.success(request, "Quiz Created Successfully.")
-            return HttpResponseRedirect(reverse('quiz:index'))
+            return HttpResponseRedirect(reverse('quiz:view_quiz', args=(quiz.id,)))
         else:
             # Link Each answer with its question to handle them correctly in the HTML file.
             question_answer_mappings = map_question_answer(answer_formset_data)

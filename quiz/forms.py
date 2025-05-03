@@ -74,9 +74,8 @@ class AnswerFormSetClass(BaseInlineFormSet):
         super().clean()
 
         question_answer_mappings = map_question_answer(self.forms)
-        values = list(question_answer_mappings.values())
         # Check that every question has at least two answers and a maximum of 4 answers.
-        for set_of_answers in values:
+        for set_of_answers in question_answer_mappings.values():
             if int(len(set_of_answers)) < 2 or int(len(set_of_answers)) > 4:
                 message = f"<p>Each Question Should have at least two answers and a maximum of four.<br> <a style='color: white' href='#answers-container-{set_of_answers[0].cleaned_data['for_question_index']}'>Check Question #{set_of_answers[0].cleaned_data['for_question_index'] + 1}  Answers.</a></p>"
                 if self.request:
@@ -84,8 +83,12 @@ class AnswerFormSetClass(BaseInlineFormSet):
                     raise ValidationError("Each Question Should have at least two answers and a maximum of four.")
                     
         # Check that every question has only one correct answer.
-        for set_of_answers in values:
+        for set_of_answers in question_answer_mappings.values():
+            print(set_of_answers)
             correct_answers_num = sum(1 for answer in set_of_answers if answer.cleaned_data.get("is_correct"))
+            for answer in set_of_answers:
+                print(answer['content'].value())
+                print(answer['is_correct'].value())
             if correct_answers_num != 1:
                 message = f"<p>Each question must have exactly one correct answer.<br> <a style='color: white' href='#answers-container-{set_of_answers[0].cleaned_data['for_question_index']}'>Check Question #{set_of_answers[0].cleaned_data['for_question_index'] + 1}  Answers.</a></p>"
                 if self.request:
@@ -93,7 +96,7 @@ class AnswerFormSetClass(BaseInlineFormSet):
                     raise ValidationError("Each question must have exactly one correct answer.")
                 
         # Check that each answer is unique.
-        for set_of_answers in values:
+        for set_of_answers in question_answer_mappings.values():
             for i in range(0, len(set_of_answers)):
                 current_content = set_of_answers[i].cleaned_data.get('content').strip()
                 for answer in set_of_answers:

@@ -138,9 +138,12 @@
 
     // Update the question content
     let question = questions[index];
-    questionContent.innerHTML = `<span class="fw-bold me-4 d-block">Question ${
-      index + 1
-    }</span>${question.content}`;
+    questionContent.innerHTML = `<span class="d-block fs-6 text-white-50 text-start">${
+      question.points
+    } Points</span>
+    <span class="fw-bold me-4 d-block">Question ${index + 1}</span>${
+      question.content
+    }`;
     questionContent.dataset.q_now = question.id;
 
     // Update the image if there is one
